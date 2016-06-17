@@ -1,0 +1,14 @@
+﻿<Properties StartupItem="test_proj.CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\PlayerScript.cs">
+    <Files>
+      <File FileName="Assets\PlayerScript.cs" Line="8" Column="1" />
+      <File FileName="Assets\camera_script.cs" Line="1" Column="1" />
+      <File FileName="Assets\ShootButtonAction.cs" Line="18" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

@@ -8,8 +8,11 @@ public class EnemyShooter : BasicCharacter
     public ScoreManager Scorer;
     public float BulletSpeed;
     public float ShotDelay;
+    public int ScoreValue;
 
     static float lastShotTime = Time.fixedTime;
+
+
     // Update is called once per frame
     void Update ()
     {
@@ -23,9 +26,10 @@ public class EnemyShooter : BasicCharacter
         }
 	}
 
-    void OnDestroy()
+    public override void Kill()
     {
-        Scorer.EnemyDestroyed(1);
+        Scorer.EnemyDestroyed(this);
+        base.Kill();
     }
 
     private bool shouldShoot()

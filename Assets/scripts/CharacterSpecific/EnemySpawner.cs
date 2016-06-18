@@ -13,6 +13,8 @@ public class EnemySpawner : MonoBehaviour
     public GameObject EnemyPrefab;
     public Rigidbody2D Player;
     public float RespawnTime;
+    public float padTop;
+    public float padBot;
 
     float RespawnCooldown = 0;
 
@@ -30,9 +32,6 @@ public class EnemySpawner : MonoBehaviour
      */
     private BezierSpline CreateDefaultPath(Renderer renderer)
     {
-        float padTop = 0.1f;
-        float padBot = 0.35f;
-
         Vector3 appearingPos = CameraUtils.SpawnPointAboveView(renderer, 0);
         Vector3 pathStartPos = appearingPos;
         pathStartPos.y -= renderer.bounds.size.y;

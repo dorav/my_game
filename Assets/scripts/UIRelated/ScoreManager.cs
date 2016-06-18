@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public int Score;
-    public Text scorePresenter;
+    public Text ScorePresenter;
+    public Canvas TempScorePrefab;
 
     void Start()
     {
@@ -15,12 +16,25 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateText()
     {
-        scorePresenter.text = Score.ToString();
+        ScorePresenter.text = Score.ToString().PadLeft(3, '0');
     }
 
-    public void EnemyDestroyed(int value)
+    public bool once = true;
+
+    public void EnemyDestroyed(EnemyShooter enemy)
     {
-        Score += value;
+        var addedScore = Instantiate(TempScorePrefab);
+        addedScore.transform.position = enemy.transform.position;
+
+        var movingScore = addedScore.GetComponentInChildren<MovingScore>();
+        movingScore.TotalScore = ScorePresenter;
+        movingScore.UpdateScore(enemy.ScoreValue);
+        movingScore.Scorer = this;
+    }
+
+    internal void AddToScore(int addedScore)
+    {
+        Score += addedScore;
         UpdateText();
     }
 }

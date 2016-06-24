@@ -9,5 +9,6 @@ namespace AutomatedMovment
 
         Vector3 GetPoint(float relativeTime);
         float Distance { get; }
+        float Speed { get; }
     }
 }

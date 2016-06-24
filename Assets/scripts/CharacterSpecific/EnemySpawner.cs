@@ -26,6 +26,17 @@ public class EnemySpawner : MonoBehaviour
         MovmentPath = CreateDefaultPath(EnemyPrefab.GetComponent<SpriteRenderer>());
     }
 
+    private float getStepHeight()
+    {
+        var top = Camera.main.ViewportToWorldPoint(new Vector3(0, 1));
+        var bot = Camera.main.ViewportToWorldPoint(new Vector3(0, 0));
+
+        var height = (top.y - bot.y) * (1 - padBot - padTop);
+        var stepHeight = height / DefaultPathNumberOfSteps;
+
+        return -stepHeight / 2;
+    }
+
     /*
      * The renderer is needed so the created object will 
      * be instantiated just above the screen
@@ -36,23 +47,27 @@ public class EnemySpawner : MonoBehaviour
         Vector3 pathStartPos = appearingPos;
         pathStartPos.y -= renderer.bounds.size.y;
 
-        float stepHeight = -(Camera.main.ViewportToScreenPoint(new Vector3(0, (1 - padTop - padBot) / DefaultPathNumberOfSteps, 0)).y);
+        float stepHeight = getStepHeight();
         float stepWidth = CameraUtils.SpawnPointAboveView(renderer, 1).x - appearingPos.x;
 
-        var path = new BezierSpline(appearingPos, pathStartPos);
+        // High speed for fast entrance
+        float speed = 8;
+        var path = new BezierSpline(new StraightLineWalker(appearingPos, pathStartPos, speed));
 
         for (int i = 0; i < DefaultPathNumberOfSteps; ++i)
         {
-            var segmentStart = pathStartPos + new Vector3(0, stepHeight * 2) * i;
+            var segmentStart = pathStartPos + new Vector3(0, stepHeight * 2 * i);
             var topRight = segmentStart + new Vector3(stepWidth, 0);
             var botRight = segmentStart + new Vector3(stepWidth, stepHeight);
             var topLeft = segmentStart + new Vector3(0, stepHeight);
             var botLeft = segmentStart + new Vector3(0, stepHeight * 2);
 
-            path.AddPath(new StraightLineWalker(path.LastPoint, topRight));
-            path.AddPath(new StraightLineWalker(path.LastPoint, botRight));
-            path.AddPath(new StraightLineWalker(path.LastPoint, topLeft));
-            path.AddPath(new StraightLineWalker(path.LastPoint, botLeft));
+            path.AddPath(new StraightLineWalker(path.LastPoint, topRight, speed));
+            // Fast entrance, but now we want to slow down
+            speed = 2;
+            path.AddPath(new StraightLineWalker(path.LastPoint, botRight, speed));
+            path.AddPath(new StraightLineWalker(path.LastPoint, topLeft, speed));
+            path.AddPath(new StraightLineWalker(path.LastPoint, botLeft, speed));
         }
 
 

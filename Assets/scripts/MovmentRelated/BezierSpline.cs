@@ -41,12 +41,9 @@ public class BezierSpline
         }
     }
 
-    public BezierSpline(Vector3 p1, Vector3 p2)
+    public BezierSpline(IPath firstSegment)
     {
-        WalkerWrapper walker = new WalkerWrapper(new StraightLineWalker(p1, p2));
-        walker.startTime = 0f;
-        walker.endTime = 1;
-        walkers.Add(walker);
+        AddPath(firstSegment);
     }
 
 	//private void EnforceMode (int index)
@@ -165,26 +162,32 @@ public class BezierSpline
 
     private void calculateTimeSegments()
     {
-        float totalDistance = this.totalDistance();
         WalkerWrapper prev = walkers[0];
         prev.endTime = 0f;
 
         for (int i = 0; i < walkers.Count; ++i)
         {
             var walker = walkers[i];
+
             walker.startTime = prev.endTime;
-            walker.endTime = walker.startTime + walker.walker.Distance / totalDistance;
+            walker.endTime = walker.startTime + walker.walker.Distance / walker.walker.Speed;
             prev = walker;
         }
+
+        NormalizeSegmentTimes();
     }
 
-    private float totalDistance()
+    /*
+     * This normalizes the times to be between 0 and 1, thus allowing
+     * an outside viewer to control the entire spline time without
+     * knowing internal timings, but only the relative speeds
+     */
+    private void NormalizeSegmentTimes()
     {
-        float distance = 0f;
-
-        foreach (var walker in walkers)
-            distance += walker.walker.Distance;
-
-        return distance;
+        for (int i = 0; i < walkers.Count; ++i)
+        {
+            walkers[i].startTime /= walkers[walkers.Count - 1].endTime;
+            walkers[i].endTime /= walkers[walkers.Count - 1].endTime;
+        }
     }
 }

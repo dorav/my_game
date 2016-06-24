@@ -11,6 +11,7 @@ namespace AutomatedMovment
     {
         Vector3 start;
         Vector3 end;
+        public float Speed { get; set; }
 
         public Vector3 LastPoint
         {
@@ -36,10 +37,11 @@ namespace AutomatedMovment
             }
         }
 
-        public StraightLineWalker(Vector3 start, Vector3 end)
+        public StraightLineWalker(Vector3 start, Vector3 end, float speed)
         {
             this.start = start;
             this.end = end;
+            this.Speed = speed;
         }
 
         public Vector3 GetPoint(float relativeTime)

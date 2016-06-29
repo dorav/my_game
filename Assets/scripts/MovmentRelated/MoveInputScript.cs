@@ -20,30 +20,11 @@ public class MoveInputScript : MonoBehaviour
     {
         if (player == null)
             return;
-
-        if (input.IsMovingRight())
-            moveRight();
-        else if (input.IsMovingLeft())
-            moveLeft();
-        else
-        {
-            stopMovment();
-        }
-
+        MoveHorizontally(input.GetHorizontalMovment());
     }
 
-    private void moveRight()
+    private void MoveHorizontally(float factor)
     {
-        player.SetSpeed(speed);
-    }
-
-    private void moveLeft()
-    {
-        player.SetSpeed(-speed);
-    }
-
-    private void stopMovment()
-    {
-        player.SetSpeed(0);
+        player.SetSpeed(speed * factor);
     }
 }

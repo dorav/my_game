@@ -13,62 +13,50 @@ public class InputAdapter : IInput
         return IsKeyboardShooting() || IsFireButtonPressed();
     }
 
-    public override bool IsMovingRight()
+    public override float GetHorizontalMovment()
     {
-        return IsClickMovingRight() || IsKeyboardMovingRight();
+        return CustomButtonHorizontalMovment() + BuiltInHorizontalMovment();
     }
 
-    public override bool IsMovingLeft()
+    public float BuiltInHorizontalMovment()
     {
-        return IsClickMovingLeft() || IsKeyboardMovingLeft();
+        return Input.GetAxis("Horizontal");
     }
 
-    public bool IsKeyboardMovingLeft()
-    {
-        return Input.GetAxis("Horizontal") < 0;
-    }
-
-    public bool IsKeyboardMovingRight()
-    {
-        return Input.GetAxis("Horizontal") > 0;
-    }
-
-    public bool IsClickMovingRight()
+    public float CustomButtonHorizontalMovment()
     {
         var rect = moveButton.GetComponent<RectTransform>();
-        Vector3 fullSize = rect.TransformVector(rect.rect.size);
-        Vector3 halfwidthSize = new Vector3(fullSize.x / 2, fullSize.y, fullSize.z);
-
-        Vector3 posBotMid = rect.position - (fullSize / 2) + new Vector3(halfwidthSize.x, 0);
-
-        Rect leftHalfButton = new Rect(posBotMid, halfwidthSize);
-
-        return IsAreaPressed(leftHalfButton);
+        return GetClickInside(rect, Vector2.zero).Value.x * 3;
     }
 
-    public bool IsClickMovingLeft()
+    private Vector2? GetClickInside(RectTransform rect, Vector2? defaultVal)
     {
-        var rect = moveButton.GetComponent<RectTransform>();
-        Vector3 fullSize = rect.TransformVector(rect.rect.size);
-        Vector3 halfwidthSize = new Vector3(fullSize.x / 2, fullSize.y, fullSize.z);
-
-        Vector3 posBotLeft = rect.position - (fullSize / 2);
-
-        Rect leftHalfButton = new Rect(posBotLeft, halfwidthSize);
-
-        return IsAreaPressed(leftHalfButton);
-    }
-
-    bool IsButtonPressed(Button btn)
-    {
-        var rect = btn.GetComponent<RectTransform>();
         Vector3 buttonSize = rect.TransformVector(rect.rect.size);
         Vector3 butttonBotLeft = rect.position - (buttonSize / 2);
         Rect area = new Rect(butttonBotLeft, buttonSize);
 
-        return IsAreaPressed(area);
+        var pointPressed = GetPointAreaPressed(area);
+        if (pointPressed.HasValue == false)
+            return defaultVal;
+
+        var distanceFromCenterX = pointPressed.Value.x - (area.x + buttonSize.x / 2);
+        var distanceFromCenterY = pointPressed.Value.y - (area.y + buttonSize.y / 2);
+        return new Vector2(distanceFromCenterX / area.width, distanceFromCenterY / area.height);
     }
 
+    bool IsButtonPressed(Button btn)
+    {
+        return GetClickInside(btn.GetComponent<RectTransform>(), null).HasValue;
+    }
+        //var rect = moveButton.GetComponent<RectTransform>();
+        //Vector3 fullSize = rect.TransformVector(rect.rect.size);
+        //Vector3 halfwidthSize = new Vector3(fullSize.x / 2, fullSize.y, fullSize.z);
+
+        //Vector3 posBotLeft = rect.position - (fullSize / 2);
+
+        //Rect leftHalfButton = new Rect(posBotLeft, halfwidthSize);
+
+        //return IsAreaPressed(leftHalfButton);
     Vector2[] GetTouches()
     {
         Vector2[] touches;
@@ -88,18 +76,19 @@ public class InputAdapter : IInput
         return touches;
     }
 
-    bool IsAreaPressed(Rect area)
+    Vector2? GetPointAreaPressed(Rect area)
     {
         //Debug.Log("Checking for area " + area);
         foreach (var touch in GetTouches())
         {
             Vector3 worldTouchPos = Camera.main.ScreenToWorldPoint(touch);
 
+            Debug.Log("Touch at " + worldTouchPos);
             if (area.Contains(worldTouchPos))
-                return true;
+                return worldTouchPos;
         }
 
-        return false;
+        return null;
     }
 
     bool IsFireButtonPressed()

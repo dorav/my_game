@@ -6,7 +6,7 @@ using AutomatedMovment;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public int WaveFinishTime = 10;
+    public int WaveFinishTime = 20;
     public int RemainingEnemiesToSpawn;
     public int DefaultPathNumberOfSteps;
     public ScoreManager Scorer;
@@ -18,12 +18,12 @@ public class EnemySpawner : MonoBehaviour
 
     float RespawnCooldown = 0;
 
-    public BezierSpline MovmentPath;
+    public BezierSpline zigZagPath;
 
 
     void Start ()
     {
-        MovmentPath = CreateDefaultPath(EnemyPrefab.GetComponent<SpriteRenderer>());
+        zigZagPath = CreateTopBotZigZagPath(EnemyPrefab.GetComponent<SpriteRenderer>());
     }
 
     private float getStepHeight()
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
      * The renderer is needed so the created object will 
      * be instantiated just above the screen
      */
-    private BezierSpline CreateDefaultPath(Renderer renderer)
+    private BezierSpline CreateTopBotZigZagPath(Renderer renderer)
     {
         Vector3 appearingPos = CameraUtils.SpawnPointAboveView(renderer, 0);
         Vector3 pathStartPos = appearingPos;
@@ -70,6 +70,12 @@ public class EnemySpawner : MonoBehaviour
             path.AddPath(new StraightLineWalker(path.LastPoint, botLeft, speed));
         }
 
+        path.AddPath(new StraightLineWalker(path.LastPoint, 
+                                            path.LastPoint + new Vector3(stepWidth, 0),
+                                            8f));
+
+        var endPoint = CameraUtils.SpawnPointBelowView(renderer, 1);
+        path.AddPath(new StraightLineWalker(path.LastPoint, endPoint, 8f));
 
         return path;
     }
@@ -88,8 +94,8 @@ public class EnemySpawner : MonoBehaviour
             obj.GetComponent<EnemyShooter>().Player = Player;
             obj.GetComponent<EnemyShooter>().Scorer = Scorer;
             obj.GetComponent<SplineWalker>().duration = WaveFinishTime;
-            obj.GetComponent<SplineWalker>().Spline = MovmentPath;
-            obj.GetComponent<SpriteRenderer>().transform.position = MovmentPath.FirstPoint;
+            obj.GetComponent<SplineWalker>().Spline = zigZagPath;
+            obj.GetComponent<SpriteRenderer>().transform.position = zigZagPath.FirstPoint;
 
             RespawnCooldown = RespawnTime;
             RemainingEnemiesToSpawn--;

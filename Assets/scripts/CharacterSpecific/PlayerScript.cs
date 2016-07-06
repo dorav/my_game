@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerScript : BasicCharacter
 {
+    public PlayerHealthBar healthBar;
+
     public void SetSpeed(float speedX)
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(speedX, 0);
@@ -12,6 +14,18 @@ public class PlayerScript : BasicCharacter
     void Update()
     {
         BoundPlayerMovmentToScreen();
+    }
+
+    void Start()
+    {
+        healthBar.MaxHealth = Health;
+        healthBar.UpdateHealth(Health);
+    }
+
+    public override void TakeHit(GameCollider dmgDealer)
+    {
+        base.TakeHit(dmgDealer);
+        healthBar.UpdateHealth(Health);
     }
 
     public Rect BoundsToScreenRect(Bounds bounds)

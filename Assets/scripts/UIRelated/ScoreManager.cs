@@ -30,6 +30,7 @@ public class ScoreManager : MonoBehaviour
         movingScore.TotalScore = ScorePresenter;
         movingScore.UpdateScore(enemy.ScoreValue);
         movingScore.Scorer = this;
+        movingScore.Canvas = addedScore;
     }
 
     internal void AddToScore(int addedScore)

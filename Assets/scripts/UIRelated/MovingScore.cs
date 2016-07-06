@@ -8,9 +8,11 @@ public class MovingScore : MonoBehaviour
     public Text TotalScore;
     public ScoreManager Scorer;
     public float Duration;
+    public Canvas Canvas { get; internal set; }
 
     float startTime;
     private int addedScore;
+
 
     void Start()
     {
@@ -23,7 +25,8 @@ public class MovingScore : MonoBehaviour
         if (t >= Duration)
         {
             Scorer.AddToScore(addedScore);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Destroy(Canvas.gameObject);
         }
         var pos = transform.position;
         var dst = TotalScore.transform.position;

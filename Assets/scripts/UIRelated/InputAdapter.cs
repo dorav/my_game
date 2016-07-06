@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public class InputAdapter : IInput 
+public class InputAdapter : UInput 
 {
     public Button shotButton;
     public Button moveButton;

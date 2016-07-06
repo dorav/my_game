@@ -1,29 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 using AutomatedMovment;
+using Assets.scripts;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public int WaveFinishTime = 20;
-    public int RemainingEnemiesToSpawn;
+    public UEnemyWaveProvider waveProvider;
+    EnemyWave activeWave;
     public int DefaultPathNumberOfSteps;
-    public ScoreManager Scorer;
-    public GameObject EnemyPrefab;
-    public Rigidbody2D Player;
-    public float RespawnTime;
     public float padTop;
     public float padBot;
+    public ScoreManager Scorer;
+    public Rigidbody2D Player;
 
     float RespawnCooldown = 0;
 
     public BezierSpline zigZagPath;
 
-
     void Start ()
     {
-        zigZagPath = CreateTopBotZigZagPath(EnemyPrefab.GetComponent<SpriteRenderer>());
+        activeWave = waveProvider.Next();
+        zigZagPath = CreateTopBotZigZagPath(activeWave.EnemyPrefab.GetComponent<SpriteRenderer>());
     }
 
     private float getStepHeight()
@@ -88,17 +84,17 @@ public class EnemySpawner : MonoBehaviour
     void Update ()
     {
         RespawnCooldown -= Time.deltaTime;
-        if (RespawnCooldown < 0 && RemainingEnemiesToSpawn > 0)
+        if (RespawnCooldown < 0 && activeWave.RemainingEnemiesToSpawn > 0)
         {
-            var obj = Instantiate(EnemyPrefab);
+            var obj = Instantiate(activeWave.EnemyPrefab);
             obj.GetComponent<EnemyShooter>().Player = Player;
             obj.GetComponent<EnemyShooter>().Scorer = Scorer;
-            obj.GetComponent<SplineWalker>().duration = WaveFinishTime;
+            obj.GetComponent<SplineWalker>().duration = activeWave.WaveFinishTime;
             obj.GetComponent<SplineWalker>().Spline = zigZagPath;
             obj.GetComponent<SpriteRenderer>().transform.position = zigZagPath.FirstPoint;
 
-            RespawnCooldown = RespawnTime;
-            RemainingEnemiesToSpawn--;
+            RespawnCooldown = activeWave.RespawnTime;
+            activeWave.RemainingEnemiesToSpawn--;
         }
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class MoveInputScript : MonoBehaviour
 {
     public PlayerScript player;
-    public IInput input;
+    public UInput input;
     public Canvas canvas;
     public GameObject prefab;
 

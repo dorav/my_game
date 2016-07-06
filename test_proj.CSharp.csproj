@@ -77,6 +77,7 @@
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerScript.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerShootButtonAction.cs" />
     <Compile Include="Assets\scripts\GameCollider.cs" />
+    <Compile Include="Assets\scripts\UEnemyWaveProvider.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\Bezier.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\BezierControlPointMode.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\BezierCurve.cs" />
@@ -87,8 +88,9 @@
     <Compile Include="Assets\scripts\MovmentRelated\SplineWalker.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\SplineWalkerMode.cs" />
     <Compile Include="Assets\scripts\PlayerHealthBar.cs" />
+    <Compile Include="Assets\scripts\PreconfiguredWaveProvider.cs" />
     <Compile Include="Assets\scripts\UIRelated\BackgroundSpawner.cs" />
-    <Compile Include="Assets\scripts\UIRelated\IInput.cs" />
+    <Compile Include="Assets\scripts\UIRelated\UInput.cs" />
     <Compile Include="Assets\scripts\UIRelated\InputAdapter.cs" />
     <Compile Include="Assets\scripts\UIRelated\MovingScore.cs" />
     <Compile Include="Assets\scripts\UIRelated\ScoreManager.cs" />

@@ -18,7 +18,7 @@ public class PlayerHealthBar : MonoBehaviour
     }
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
         maxWidth = HealthMask.rect.size.x;
 	}

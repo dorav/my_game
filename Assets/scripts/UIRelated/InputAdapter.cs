@@ -83,7 +83,6 @@ public class InputAdapter : UInput
         {
             Vector3 worldTouchPos = Camera.main.ScreenToWorldPoint(touch);
 
-            Debug.Log("Touch at " + worldTouchPos);
             if (area.Contains(worldTouchPos))
                 return worldTouchPos;
         }

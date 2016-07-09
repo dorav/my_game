@@ -17,14 +17,8 @@ public class PlayerHealthBar : MonoBehaviour
         HealthText.text = newHealth.ToString();
     }
 
-	// Use this for initialization
 	void Awake ()
     {
         maxWidth = HealthMask.rect.size.x;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 }

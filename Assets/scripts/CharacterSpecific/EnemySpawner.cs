@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     float RespawnCooldown = 0;
 
     public BezierSpline zigZagPath;
+    public float TimeBetweenWaves;
 
     void Start ()
     {
@@ -83,18 +84,33 @@ public class EnemySpawner : MonoBehaviour
 
     void Update ()
     {
+        if (activeWave == null)
+            return;
+
+        if (activeWave.RemainingEnemiesToSpawn == 0)
+        {
+            activeWave = waveProvider.Next();
+            if (activeWave == null)
+                return;
+            RespawnCooldown = TimeBetweenWaves;
+        }
+
         RespawnCooldown -= Time.deltaTime;
         if (RespawnCooldown < 0 && activeWave.RemainingEnemiesToSpawn > 0)
         {
-            var obj = Instantiate(activeWave.EnemyPrefab);
-            obj.GetComponent<EnemyShooter>().Player = Player;
-            obj.GetComponent<EnemyShooter>().Scorer = Scorer;
-            obj.GetComponent<SplineWalker>().duration = activeWave.WaveFinishTime;
-            obj.GetComponent<SplineWalker>().Spline = zigZagPath;
-            obj.GetComponent<SpriteRenderer>().transform.position = zigZagPath.FirstPoint;
+            SpawnEnemy();
 
             RespawnCooldown = activeWave.RespawnTime;
             activeWave.RemainingEnemiesToSpawn--;
         }
-	}
+    }
+
+    public void SpawnEnemy()
+    {
+        var obj = Instantiate(activeWave.EnemyPrefab);
+        obj.GetComponent<EnemyShooter>().SetConfig(this);
+        obj.GetComponent<SplineWalker>().duration = activeWave.WaveFinishTime;
+        obj.GetComponent<SplineWalker>().Spline = zigZagPath;
+        obj.GetComponent<SpriteRenderer>().transform.position = zigZagPath.FirstPoint;
+    }
 }

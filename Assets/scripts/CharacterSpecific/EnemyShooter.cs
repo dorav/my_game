@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyShooter : BasicCharacter
 {
@@ -22,7 +23,7 @@ public class EnemyShooter : BasicCharacter
 
             GameObject bullet = Instantiate(bulletPrefab);
             bullet.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -BulletSpeed);
-            bullet.GetComponent<Rigidbody2D>().transform.position = new Vector3(transform.position.x, transform.position.y - 100, 100);
+            bullet.GetComponent<Rigidbody2D>().transform.position = new Vector3(transform.position.x, transform.position.y - GetComponent<SpriteRenderer>().bounds.size.y, 100);
         }
 	}
 
@@ -43,5 +44,11 @@ public class EnemyShooter : BasicCharacter
             return false;
 
         return Mathf.Abs(Player.position.x - GetComponent<Transform>().position.x) < 10f;
+    }
+
+    public virtual void SetConfig(EnemySpawner enemySpawner)
+    {
+        Player = enemySpawner.Player;
+        Scorer = enemySpawner.Scorer;
     }
 }

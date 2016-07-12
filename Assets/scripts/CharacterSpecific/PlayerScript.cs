@@ -16,8 +16,9 @@ public class PlayerScript : BasicCharacter
         BoundPlayerMovmentToScreen();
     }
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         healthBar.MaxHealth = Health;
         healthBar.UpdateHealth(Health);
     }

@@ -4,7 +4,25 @@ using System.Collections;
 public class BasicCharacter : GameCollider
 {
     public float Health;
-    public ParticleSystem explosionPrefab;
+    protected ParticleSystem hitEffectPrefab;
+    protected ParticleSystem deathEffectPrefab;
+
+    public virtual void Start()
+    {
+        hitEffectPrefab = ConstantsDefaultLoader.HitEffectPF;
+        deathEffectPrefab = ConstantsDefaultLoader.DeathEffectPF;
+    }
+
+    public override void Kill()
+    {
+        var deathEffect = Instantiate(deathEffectPrefab);
+        Vector3 pos = transform.position;
+        pos.z = 100;
+        deathEffect.transform.position = pos;
+
+        Destroy(deathEffect.gameObject, deathEffect.startLifetime + deathEffect.startLifetime);
+        base.Kill();
+    }
 
     public virtual void TakeHit(GameCollider other)
     {
@@ -39,7 +57,7 @@ public class BasicCharacter : GameCollider
 
     private void CreateHitEffect(Collider2D other)
     {
-        var explosion = Instantiate(explosionPrefab);
+        var explosion = Instantiate(hitEffectPrefab);
         Vector3 pos = other.transform.position;
         pos.z = 100;
         explosion.transform.position = pos;

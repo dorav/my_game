@@ -21,12 +21,24 @@ public class PlayerScript : BasicCharacter
         base.Start();
         healthBar.MaxHealth = Health;
         healthBar.UpdateHealth(Health);
+        spawnShield();
     }
 
     public override void TakeHit(GameCollider dmgDealer)
     {
         base.TakeHit(dmgDealer);
         healthBar.UpdateHealth(Health);
+
+        spawnShield();
+    }
+
+    private void spawnShield()
+    {
+        var shield = Instantiate(ConstantsDefaultLoader.PlayerShieldPrefab);
+        shield.transform.parent = transform;
+        shield.transform.localPosition = new Vector3(0, 0, 101);
+        shield.maxSize = shield.transform.localScale;
+        shield.Health = float.PositiveInfinity;
     }
 
     public Rect BoundsToScreenRect(Bounds bounds)
@@ -39,10 +51,10 @@ public class PlayerScript : BasicCharacter
         return new Rect(origin.x, Screen.height - origin.y, extent.x - origin.x, origin.y - extent.y);
     }
 
-    const float PADDING_COEF = 1.5f;
 
     void BoundPlayerMovmentToScreen()
     {
+        const float PADDING_COEF = 1.5f;
         var camera = Camera.main;
         var bottomLeft = camera.ScreenToWorldPoint(Vector3.zero);
         var topRight = camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height));

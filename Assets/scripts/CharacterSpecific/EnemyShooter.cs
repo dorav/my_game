@@ -13,8 +13,6 @@ public class EnemyShooter : BasicCharacter
 
     static float lastShotTime = Time.fixedTime;
 
-
-    // Update is called once per frame
     void Update ()
     {
         if (shouldShoot())

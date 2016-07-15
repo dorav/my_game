@@ -96,6 +96,7 @@
     <Compile Include="Assets\scripts\UIRelated\ScoreManager.cs" />
     <Compile Include="Assets\scripts\UIRelated\Touchable.cs" />
     <Compile Include="Assets\scripts\UIRelated\UInput.cs" />
+    <Compile Include="Assets\scripts\UIRelated\WaveIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\planets\credits_reminder.txt" />

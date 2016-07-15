@@ -52,7 +52,7 @@ namespace Assets.scripts
             var spawnedWalker = obj.GetComponent<SplineWalker>();
             spawnedWalker.duration = thisWalker.duration;
             spawnedWalker.progress = thisWalker.progress;
-            spawnedWalker.Spline = spawner.zigZagPath;
+            spawnedWalker.Spline = GetComponent<SplineWalker>().Spline;
 
             return spawnedWalker;
         }

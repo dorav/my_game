@@ -5,12 +5,6 @@ using AutomatedMovment;
 
 public class BezierSpline
 {
-	[SerializeField]
-	private BezierControlPointMode[] modes;
-
-	[SerializeField]
-	private bool loop;
-
     class WalkerWrapper
     {
         public float startTime;

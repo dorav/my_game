@@ -2,16 +2,18 @@
 using AutomatedMovment;
 using Assets.scripts;
 using System;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
     public float WaveIndicatorShowTime = 5f;
     public UEnemyWaveProvider waveProvider;
     public ScoreManager Scorer;
+    public Text activeEnemiesPresenter;
     public Rigidbody2D Player;
     public WaveIndicator indicatorPrefab;
 
-    EnemyWave activeWave;
+    public EnemyWave ActiveWave;
 
     float RespawnCooldown = 0;
     int waveEnemiesToSpawn = 0;
@@ -25,10 +27,10 @@ public class EnemySpawner : MonoBehaviour
 
     void Update ()
     {
-        if (waveEnemiesToSpawn == 0)
+        if (Scorer.NumberOfActiveEnemies == 0)
         {
-            activeWave = waveProvider.Next();
-            if (activeWave == null)
+            ActiveWave = waveProvider.Next();
+            if (ActiveWave == null)
             {
                 enabled = false;
                 return;
@@ -42,14 +44,15 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnEnemy();
 
-            RespawnCooldown = activeWave.RespawnTime;
+            RespawnCooldown = ActiveWave.RespawnTime;
             waveEnemiesToSpawn--;
         }
     }
 
     private void StartNewWave()
     {
-        waveEnemiesToSpawn = activeWave.EnemiesToSpawn;
+        waveEnemiesToSpawn = ActiveWave.EnemiesToSpawn;
+        Scorer.NumberOfActiveEnemies = waveEnemiesToSpawn;
         setRespawnCooldown();
 
         spawnWaveIndicator();
@@ -65,17 +68,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void spawnWaveIndicator()
     {
-        Instantiate(indicatorPrefab).SetPath(activeWave.Path, 0);
-        Instantiate(indicatorPrefab).SetPath(activeWave.Path, 1/3f);
-        Instantiate(indicatorPrefab).SetPath(activeWave.Path, 2/3f);
+        Instantiate(indicatorPrefab).SetPath(ActiveWave.Path, 0);
+        Instantiate(indicatorPrefab).SetPath(ActiveWave.Path, 1/3f);
+        Instantiate(indicatorPrefab).SetPath(ActiveWave.Path, 2/3f);
     }
 
     public void SpawnEnemy()
     {
-        var obj = Instantiate(activeWave.EnemyPrefab);
+        var obj = Instantiate(ActiveWave.EnemyPrefab);
         obj.GetComponent<EnemyShooter>().SetConfig(this);
-        obj.GetComponent<SplineWalker>().duration = activeWave.WaveFinishTime;
-        obj.GetComponent<SplineWalker>().Spline = activeWave.Path;
-        obj.GetComponent<SpriteRenderer>().transform.position = activeWave.Path.FirstPoint;
+        obj.GetComponent<SplineWalker>().duration = ActiveWave.WaveFinishTime;
+        obj.GetComponent<SplineWalker>().Spline = ActiveWave.Path;
+        obj.GetComponent<SpriteRenderer>().transform.position = ActiveWave.Path.FirstPoint;
     }
 }

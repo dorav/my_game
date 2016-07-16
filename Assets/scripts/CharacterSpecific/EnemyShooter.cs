@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Assets.scripts;
 
 public class EnemyShooter : BasicCharacter
 {
@@ -12,6 +13,8 @@ public class EnemyShooter : BasicCharacter
     public int ScoreValue;
 
     static float lastShotTime = Time.fixedTime;
+
+    public EnemyWave RelatedWave { get; private set; }
 
     void Update ()
     {
@@ -48,5 +51,6 @@ public class EnemyShooter : BasicCharacter
     {
         Player = enemySpawner.Player;
         Scorer = enemySpawner.Scorer;
+        RelatedWave = enemySpawner.ActiveWave;
     }
 }

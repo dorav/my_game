@@ -54,6 +54,8 @@ namespace Assets.scripts
             spawnedWalker.progress = thisWalker.progress;
             spawnedWalker.Spline = GetComponent<SplineWalker>().Spline;
 
+            spawner.Scorer.NumberOfActiveEnemies++;
+
             return spawnedWalker;
         }
     }

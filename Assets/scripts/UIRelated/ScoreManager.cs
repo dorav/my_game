@@ -7,11 +7,13 @@ public class ScoreManager : MonoBehaviour
 {
     public int Score;
     public Text ScorePresenter;
+    public Text ActiveEnemiesPresenter;
     public Canvas TempScorePrefab;
+    private int numberOfActiveEnemies;
 
     void Start()
     {
-        UpdateText();        
+        UpdateText();
     }
 
     void UpdateText()
@@ -19,7 +21,15 @@ public class ScoreManager : MonoBehaviour
         ScorePresenter.text = Score.ToString().PadLeft(3, '0');
     }
 
-    public bool once = true;
+    public int NumberOfActiveEnemies
+    {
+        get { return numberOfActiveEnemies; }
+        set
+        {
+            numberOfActiveEnemies = value;
+            UpdateActiveEnemiesText();
+        }
+    }
 
     public void EnemyDestroyed(EnemyShooter enemy)
     {
@@ -31,11 +41,18 @@ public class ScoreManager : MonoBehaviour
         movingScore.UpdateScore(enemy.ScoreValue);
         movingScore.Scorer = this;
         movingScore.Canvas = addedScore;
+
+        NumberOfActiveEnemies--;
     }
 
     internal void AddToScore(int addedScore)
     {
         Score += addedScore;
         UpdateText();
+    }
+
+    internal void UpdateActiveEnemiesText()
+    {
+        ActiveEnemiesPresenter.text = NumberOfActiveEnemies.ToString();
     }
 }

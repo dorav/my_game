@@ -71,12 +71,12 @@
     <Compile Include="Assets\scripts\CameraUtils.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\BasicCharacter.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\EnemyShooter.cs" />
-    <Compile Include="Assets\scripts\CharacterSpecific\EnemySpawner.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\MiltiplyEnemy.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerScript.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerShieldScript.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerShootButtonAction.cs" />
     <Compile Include="Assets\scripts\ConstantsDefaultLoader.cs" />
+    <Compile Include="Assets\scripts\EnemySpawner.cs" />
     <Compile Include="Assets\scripts\GameCollider.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\Bezier.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\BezierControlPointMode.cs" />

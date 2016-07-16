@@ -21,16 +21,12 @@ public class WaveIndicator : SplineWalker
         endColorTransp.a = 0;
     }
 
-    public override void Update ()
+    public override void FixedUpdate ()
     {
         var currentStartColor = Color.Lerp(startColor, startColorTransp, progress);
         var currentEndColor = Color.Lerp(endColor, endColorTransp, progress);
         line.SetColors(currentStartColor, currentEndColor);
-    }
-
-    public void FixedUpdate()
-    {
-        base.Update();
+        base.FixedUpdate();
     }
 
     internal void SetPath(BezierSpline path, float progress)

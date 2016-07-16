@@ -13,7 +13,7 @@ public class SplineWalker : MonoBehaviour {
 
 	private bool goingForward = true;
 
-	public virtual void Update () {
+	public virtual void FixedUpdate () {
 		if (goingForward) {
 			progress += Time.deltaTime / duration;
 			if (progress > 1f) {

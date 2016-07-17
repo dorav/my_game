@@ -3,6 +3,7 @@ using AutomatedMovment;
 using Assets.scripts;
 using System;
 using UnityEngine.UI;
+using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
 
     public float TimeBetweenWaves;
     private bool first = true;
+    private bool spawning = true;
 
     void Start ()
     {
@@ -27,6 +29,9 @@ public class EnemySpawner : MonoBehaviour
 
     void Update ()
     {
+        if (spawning == false)
+            return;
+
         if (Scorer.NumberOfActiveEnemies == 0)
         {
             ActiveWave = waveProvider.Next();
@@ -35,8 +40,9 @@ public class EnemySpawner : MonoBehaviour
                 enabled = false;
                 return;
             }
-
-            StartNewWave();
+            StartCoroutine(StartNewWave());
+            spawning = false;
+            return;
         }
 
         RespawnCooldown -= Time.deltaTime;
@@ -49,13 +55,15 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void StartNewWave()
+    private IEnumerator StartNewWave()
     {
+        yield return new WaitForSeconds(TimeBetweenWaves);
         waveEnemiesToSpawn = ActiveWave.EnemiesToSpawn;
         Scorer.NumberOfActiveEnemies = waveEnemiesToSpawn;
         setRespawnCooldown();
 
         spawnWaveIndicator();
+        spawning = true;
     }
 
     private void setRespawnCooldown()

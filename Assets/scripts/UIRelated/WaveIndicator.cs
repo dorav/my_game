@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
 public class WaveIndicator : SplineWalker
@@ -26,6 +26,13 @@ public class WaveIndicator : SplineWalker
         var currentStartColor = Color.Lerp(startColor, startColorTransp, progress);
         var currentEndColor = Color.Lerp(endColor, endColorTransp, progress);
         line.SetColors(currentStartColor, currentEndColor);
+
+        if (progress == 1f && mode == SplineWalkerMode.Once)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         base.FixedUpdate();
     }
 
@@ -37,10 +44,17 @@ public class WaveIndicator : SplineWalker
         offset = Vector3.zero;
         transform.position = Vector3.zero;
         resetPositions();
-        Destroy(gameObject, indicatorLifeTime);
         line = GetComponent<LineRenderer>();
         line.SetWidth(6, 4);
         mode = SplineWalkerMode.Loop;
+        StartCoroutine(StopLooping());
+    }
+
+    IEnumerator StopLooping()
+    {
+        yield return new WaitForSeconds(indicatorLifeTime);
+
+        mode = SplineWalkerMode.Once;
     }
 
     private void resetPositions()

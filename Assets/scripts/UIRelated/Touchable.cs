@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿//using UnityEditor;
 using UnityEngine.UI;
 
 public class Touchable : Text
@@ -10,11 +10,11 @@ public class Touchable : Text
 }
 
 
-[CustomEditor(typeof(Touchable))]
-public class Touchable_Editor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // Do nothing
-    }
-}
+//[CustomEditor(typeof(Touchable))]
+//public class Touchable_Editor : Editor
+//{
+//    public override void OnInspectorGUI()
+//    {
+//        // Do nothing
+//    }
+//}

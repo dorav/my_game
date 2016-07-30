@@ -12,7 +12,7 @@ public class EnemyShooter : BasicCharacter
     public float ShotDelay;
     public int ScoreValue;
 
-    static float lastShotTime = Time.fixedTime;
+    static float lastShotTime = 0;
 
     public EnemyWave RelatedWave { get; private set; }
 

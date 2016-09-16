@@ -7,6 +7,8 @@ public class BasicCharacter : GameCollider
     protected ParticleSystem hitEffectPrefab;
     protected ParticleSystem deathEffectPrefab;
 
+    protected bool SouldIgnoreCollisions = true;
+
     public virtual void Start()
     {
         hitEffectPrefab = ConstantsDefaultLoader.HitEffectPF;
@@ -24,29 +26,30 @@ public class BasicCharacter : GameCollider
         base.Kill();
     }
 
-    public virtual void TakeHit(GameCollider other)
+    public virtual void TakeHitFrom(GameCollider other)
     {
+        CreateHitEffect(other.transform);
         Health -= other.Damage;
         if (Health <= 0)
             Kill();
     }
 
-    // Other is configured so it can either be another character or a bullet
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        CreateHitEffect(other);
-        var dmgDealer = other.GetComponent<GameCollider>();
-        TakeHit(dmgDealer);
-        OtherTakeHit(dmgDealer);
-    }
-
-    private static void OtherTakeHit(GameCollider other)
-    {
-        // If other is the player, this = other character.
-        // handling will be done on the player's event handler
-        if (other.gameObject.tag == "Player")
+        // If this is not done, two collisions will happen.
+        // If you still want to collide two triggers (player and
+        // an enemy player for example), 
+        // set the handle CollideWithOther to true
+        if (other.isTrigger && SouldIgnoreCollisions)
             return;
 
+        var dmgDealer = other.GetComponent<GameCollider>();
+        TakeHitFrom(dmgDealer);
+        RetaliateAgainst(dmgDealer);
+    }
+
+    protected static void RetaliateAgainst(GameCollider other)
+    {
         other.CollideWithOtherCharacter();
     }
 
@@ -55,10 +58,10 @@ public class BasicCharacter : GameCollider
         Kill();
     }
 
-    private void CreateHitEffect(Collider2D other)
+    protected void CreateHitEffect(Transform hitEffectPosition)
     {
         var explosion = Instantiate(hitEffectPrefab);
-        Vector3 pos = other.transform.position;
+        Vector3 pos = hitEffectPosition.position;
         pos.z = 100;
         explosion.transform.position = pos;
 

@@ -3,32 +3,29 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : UEnemyDestroyedListener
 {
     public int Score;
     public Text ScorePresenter;
     public Text ActiveEnemiesPresenter;
     public Canvas TempScorePrefab;
-    private int numberOfActiveEnemies;
 
     void Start()
     {
         UpdateText();
+        UEnemyDestroyedListener.OnEnemyDestroyed += EnemyDestroyed;
+        UEnemyDestroyedListener.OnNumberOfActiveEnemiesChanged += UpdateActiveEnemiesText;
+    }
+
+    void OnDisable()
+    {
+        UEnemyDestroyedListener.OnEnemyDestroyed -= EnemyDestroyed;
+        UEnemyDestroyedListener.OnNumberOfActiveEnemiesChanged -= UpdateActiveEnemiesText;
     }
 
     void UpdateText()
     {
         ScorePresenter.text = Score.ToString().PadLeft(3, '0');
-    }
-
-    public int NumberOfActiveEnemies
-    {
-        get { return numberOfActiveEnemies; }
-        set
-        {
-            numberOfActiveEnemies = value;
-            UpdateActiveEnemiesText();
-        }
     }
 
     public void EnemyDestroyed(EnemyShooter enemy)

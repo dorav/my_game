@@ -9,7 +9,6 @@ public class EnemySpawner : MonoBehaviour
 {
     public float WaveIndicatorShowTime = 5f;
     public UEnemyWaveProvider waveProvider;
-    public ScoreManager Scorer;
     public Text activeEnemiesPresenter;
     public Rigidbody2D Player;
     public WaveIndicator indicatorPrefab;
@@ -32,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
         if (spawning == false)
             return;
 
-        if (Scorer.NumberOfActiveEnemies == 0)
+        if (UEnemyDestroyedListener.NumberOfActiveEnemies == 0)
         {
             ActiveWave = waveProvider.Next();
             if (ActiveWave == null)
@@ -59,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(TimeBetweenWaves);
         waveEnemiesToSpawn = ActiveWave.EnemiesToSpawn;
-        Scorer.NumberOfActiveEnemies = waveEnemiesToSpawn;
+        UEnemyDestroyedListener.NumberOfActiveEnemies = waveEnemiesToSpawn;
         setRespawnCooldown();
 
         spawnWaveIndicator();

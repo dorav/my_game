@@ -7,7 +7,6 @@ public class EnemyShooter : BasicCharacter
 {
     public Rigidbody2D Player;
     public GameObject bulletPrefab;
-    public ScoreManager Scorer;
     public float BulletSpeed;
     public float ShotDelay;
     public int ScoreValue;
@@ -30,7 +29,7 @@ public class EnemyShooter : BasicCharacter
 
     public override void Kill()
     {
-        Scorer.EnemyDestroyed(this);
+        UEnemyDestroyedListener.ReportEnemyDestroyed(this);
         base.Kill();
     }
 
@@ -50,7 +49,6 @@ public class EnemyShooter : BasicCharacter
     public virtual void SetConfig(EnemySpawner enemySpawner)
     {
         Player = enemySpawner.Player;
-        Scorer = enemySpawner.Scorer;
         RelatedWave = enemySpawner.ActiveWave;
     }
 }

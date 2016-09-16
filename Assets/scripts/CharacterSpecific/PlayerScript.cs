@@ -5,6 +5,10 @@ public class PlayerScript : BasicCharacter
 {
     public PlayerHealthBar healthBar;
 
+    PlayerShieldScript shield;
+
+    public int SplitShotMultiplier { get; internal set; }
+
     public void SetSpeed(float speedX)
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(speedX, 0);
@@ -19,26 +23,35 @@ public class PlayerScript : BasicCharacter
     public override void Start()
     {
         base.Start();
+        base.SouldIgnoreCollisions = false;
         healthBar.MaxHealth = Health;
         healthBar.UpdateHealth(Health);
         spawnShield();
     }
 
-    public override void TakeHit(GameCollider dmgDealer)
+    public override void TakeHitFrom(GameCollider dmgDealer)
     {
-        base.TakeHit(dmgDealer);
-        healthBar.UpdateHealth(Health);
+        var interactor = dmgDealer.GetComponent<UCharacterInteractor>();
+        if (interactor != null)
+            interactor.InteractWith(this);
+        else
+        {
+            base.TakeHitFrom(dmgDealer);
+            healthBar.UpdateHealth(Health);
 
-        spawnShield();
+            spawnShield();
+        }
     }
 
     private void spawnShield()
     {
-        var shield = Instantiate(ConstantsDefaultLoader.PlayerShieldPrefab);
-        shield.transform.parent = transform;
-        shield.transform.localPosition = new Vector3(0, 0, 101);
-        shield.maxSize = shield.transform.localScale;
-        shield.Health = float.PositiveInfinity;
+        if (shield == null)
+        {
+            shield = Instantiate(ConstantsDefaultLoader.PlayerShieldPrefab);
+            shield.transform.parent = transform;
+            shield.transform.localPosition = new Vector3(0, 0, 101);
+            shield.Health = float.PositiveInfinity;
+        }
     }
 
     public Rect BoundsToScreenRect(Bounds bounds)

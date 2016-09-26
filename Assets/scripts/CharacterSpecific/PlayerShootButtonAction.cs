@@ -4,7 +4,7 @@ using Assets.scripts;
 
 public class PlayerShootButtonAction : MonoBehaviour
 {
-    public Rigidbody2D Player;
+    public PlayerScript Player;
     public Weaponry weapons;
     public InputAdapter input;
     public float ShotCooldown = 0.45f;
@@ -24,11 +24,6 @@ public class PlayerShootButtonAction : MonoBehaviour
 
             instance = value;
         }
-    }
-
-    public void setWeapon(IWeapon weapon)
-    {
-        weapons.setWeapon(weapon);
     }
 
     void Start()

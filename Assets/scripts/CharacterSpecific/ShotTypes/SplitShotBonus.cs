@@ -7,22 +7,24 @@ using Assets.scripts;
 public class SplitShotBonus : UCharacterInteractor
 {
     public Weaponry weaponry;
+    private int MaxShotMultiplier = 8;
 
     public class SplitShot : IWeapon
     {
         public float openingDegreeRad = 7.5f * Mathf.Deg2Rad;
+        public int ShotMultiplier = 2;
+        private Weaponry weaponry;
 
-        public SplitShot(IWeapon originalWeapon)
+        public SplitShot(Weaponry weaponry)
         {
-            this.OriginalWeapon = originalWeapon;
+            this.weaponry = weaponry;
         }
-
-        public IWeapon OriginalWeapon { get; private set; }
 
         public List<GameCollider> shoot()
         {
-            var shots = OriginalWeapon.shoot();
-            shots.AddRange(OriginalWeapon.shoot());
+            List<GameCollider> shots = new List<GameCollider>();
+            for (int i = 0; i < ShotMultiplier; ++i)
+                shots.AddRange(weaponry.baseWeapon.shoot());
 
             float angleDiff = openingDegreeRad * 2 / (shots.Count - 1); // doubled because the opening is to the two sides
             float angle = -openingDegreeRad;
@@ -50,19 +52,17 @@ public class SplitShotBonus : UCharacterInteractor
 
     public override void InteractWith(PlayerScript player)
     {
-        if (weaponry.SplitShotNumber < 8)
+        var splitShot = weaponry.wrappingWeapon as SplitShot;
+        if (splitShot != null)
         {
-            var splitShotNumber = weaponry.SplitShotNumber * 2;
+            if (splitShot.ShotMultiplier * 2 > MaxShotMultiplier)
+                return;
 
-            weaponry.setWeapon(new SplitShot(weaponry.currentWeapon));
-
-            weaponry.SplitShotNumber = splitShotNumber;
-            weaponry.DamageMultiplier /= splitShotNumber;
+            splitShot.ShotMultiplier *= 2;
         }
         else
-        {
-            if (weaponry.DamageMultiplier < 1)
-                weaponry.DamageMultiplier *= 2;
-        }
+            weaponry.wrappingWeapon = new SplitShot(weaponry);
+
+        weaponry.DamageMultiplier /= 2;
     }
 }

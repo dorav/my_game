@@ -1,17 +1,18 @@
 fileFormatVersion: 2
-guid: d3a42acce48ce7841b2f0cba7bd98db6
-timeCreated: 1474655256
+guid: 62e81aecfec90444d897dc3c1fe3c7da
+timeCreated: 1474743672
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: crystal-qubodup-ccby3-16-orange_0
-    21300002: crystal-qubodup-ccby3-16-orange_1
-    21300004: crystal-qubodup-ccby3-16-orange_2
-    21300006: crystal-qubodup-ccby3-16-orange_3
-    21300008: crystal-qubodup-ccby3-16-orange_4
-    21300010: crystal-qubodup-ccby3-16-orange_5
-    21300012: crystal-qubodup-ccby3-16-orange_6
-    21300014: crystal-qubodup-ccby3-16-orange_7
+    21300000: regular_shots_0
+    21300002: regular_shots_1
+    21300004: regular_shots_2
+    21300006: regular_shots_3
+    21300008: regular_shots_4
+    21300010: regular_shots_5
+    21300012: regular_shots_6
+    21300014: regular_shots_7
+    21300016: regular_shots_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -61,104 +62,117 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_0
+      name: regular_shots_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 0
-        width: 12
-        height: 16
+        x: 1
+        y: 107
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_1
+      name: regular_shots_1
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 107
+        width: 6
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: regular_shots_2
       rect:
         serializedVersion: 2
         x: 18
-        y: 0
-        width: 11
-        height: 16
+        y: 107
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_2
+      name: regular_shots_3
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 107
+        width: 6
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: regular_shots_4
       rect:
         serializedVersion: 2
         x: 34
-        y: 0
-        width: 11
-        height: 16
+        y: 107
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_3
+      name: regular_shots_5
       rect:
         serializedVersion: 2
-        x: 51
-        y: 0
-        width: 11
-        height: 16
+        x: 9
+        y: 83
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_4
+      name: regular_shots_6
       rect:
         serializedVersion: 2
-        x: 67
-        y: 0
-        width: 10
-        height: 16
+        x: 18
+        y: 83
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_5
+      name: regular_shots_7
       rect:
         serializedVersion: 2
-        x: 83
-        y: 0
-        width: 10
-        height: 16
+        x: 9
+        y: 59
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_6
+      name: regular_shots_8
       rect:
         serializedVersion: 2
-        x: 99
-        y: 0
-        width: 11
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: crystal-qubodup-ccby3-16-orange_7
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 0
-        width: 11
-        height: 16
+        x: 18
+        y: 59
+        width: 6
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

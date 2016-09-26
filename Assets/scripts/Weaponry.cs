@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 namespace Assets.scripts
 {
     public class Weaponry
     {
-        public int SplitShotNumber = 1;
         public float DamageMultiplier = 1f;
+        public int MaxMultiplier = 8;
+        internal float MinMultiplier = 0.125f;
 
-        public IWeapon currentWeapon;
-        public Rigidbody2D Player;
+        public IWeapon baseWeapon;
+        public IWeapon wrappingWeapon;
+        public PlayerScript Player;
 
-        public Weaponry(Rigidbody2D player)
+        public Weaponry(PlayerScript player)
         {
             Player = player;
-            currentWeapon = new RegularShot(ConstantsDefaultLoader.PlayerBulletPrefab);
+            baseWeapon = new RegularShot(this, ConstantsDefaultLoader.PlayerBulletPrefab);
+            wrappingWeapon = new NoChangeWrapper(this);
         }
 
         public void Shoot()
         {
-            foreach (var collider in currentWeapon.shoot())
+            foreach (var collider in wrappingWeapon.shoot())
             {
                 var pos = Player.transform.position;
                 pos.y += 100;
@@ -30,26 +34,64 @@ namespace Assets.scripts
 
         internal void setWeapon(IWeapon weapon)
         {
-            DamageMultiplier *= SplitShotNumber;
-            SplitShotNumber = 1;
-            currentWeapon = weapon;
+            baseWeapon = weapon;
         }
     }
 
     class RegularShot : IWeapon
     {
-        public RegularShot(GameCollider prefab)
+        public GameCollider[] shots;
+        private Weaponry weaponry;
+        private SortedDictionary<float, GameCollider> dmgMultToPrefab = new SortedDictionary<float, GameCollider>();
+
+        public RegularShot(Weaponry weaponry, GameCollider[] prefab)
         {
-            shot = prefab;
+            this.weaponry = weaponry;
+            shots = prefab;
+            int max = 0;
+            for (int coef = (int)Mathf.Log(weaponry.MinMultiplier, 2); coef < 1; ++coef, ++max)
+                dmgMultToPrefab[Mathf.Pow(2, coef)] = shots[max];
+
+            for (int coef = 1; Mathf.Pow(2, coef) <= weaponry.MaxMultiplier; ++coef, ++max)
+                dmgMultToPrefab[Mathf.Pow(2, coef)] = shots[max];
         }
-        public GameCollider shot;
+
         public List<GameCollider> shoot()
         {
-            var latest = MonoBehaviour.Instantiate(shot.gameObject);
+            var latest = MonoBehaviour.Instantiate(shotPrefab().gameObject);
             var collider = latest.GetComponent<GameCollider>();
             latest.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1000f);
 
             return new List<GameCollider> { collider };
+        }
+
+        private GameCollider shotPrefab()
+        {
+            var shotPrefab = shots[0];
+            foreach (KeyValuePair<float, GameCollider> shot in dmgMultToPrefab)
+            {
+                if (shot.Key > weaponry.DamageMultiplier)
+                    return shotPrefab;
+
+                shotPrefab = shot.Value;
+            }
+
+            return shotPrefab;
+        }
+    }
+
+    class NoChangeWrapper : IWeapon
+    {
+        Weaponry weaponry;
+
+        public NoChangeWrapper(Weaponry weaponry)
+        {
+            this.weaponry = weaponry;
+        }
+
+        public List<GameCollider> shoot()
+        {
+            return weaponry.baseWeapon.shoot();
         }
     }
 }

@@ -13,13 +13,13 @@ public class ScoreManager : UEnemyDestroyedListener
     void Start()
     {
         UpdateText();
-        UEnemyDestroyedListener.OnEnemyDestroyed += EnemyDestroyed;
+        UEnemyDestroyedListener.OnBeforeEnemyDestroyed += EnemyDestroyed;
         UEnemyDestroyedListener.OnNumberOfActiveEnemiesChanged += UpdateActiveEnemiesText;
     }
 
     void OnDisable()
     {
-        UEnemyDestroyedListener.OnEnemyDestroyed -= EnemyDestroyed;
+        UEnemyDestroyedListener.OnBeforeEnemyDestroyed -= EnemyDestroyed;
         UEnemyDestroyedListener.OnNumberOfActiveEnemiesChanged -= UpdateActiveEnemiesText;
     }
 
@@ -38,8 +38,6 @@ public class ScoreManager : UEnemyDestroyedListener
         movingScore.UpdateScore(enemy.ScoreValue);
         movingScore.Scorer = this;
         movingScore.Canvas = addedScore;
-
-        NumberOfActiveEnemies--;
     }
 
     internal void AddToScore(int addedScore)

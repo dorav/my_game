@@ -19,11 +19,12 @@ public abstract class UEnemyDestroyedListener : MonoBehaviour
     public static event NumberOfActiveEnemiesChanged_ OnNumberOfActiveEnemiesChanged;
 
     public delegate void EnemyDestroyed_(EnemyShooter destroyed);
-    public static event EnemyDestroyed_ OnEnemyDestroyed;
+    public static event EnemyDestroyed_ OnBeforeEnemyDestroyed;
 
     public static void ReportEnemyDestroyed(EnemyShooter destroyed)
     {
-        if (OnEnemyDestroyed != null)
-            OnEnemyDestroyed(destroyed);
+        if (OnBeforeEnemyDestroyed != null)
+            OnBeforeEnemyDestroyed(destroyed);
+        NumberOfActiveEnemies--;
     }
 }

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using AutomatedMovment;
 using Assets.scripts;
-using System;
 using UnityEngine.UI;
 using System.Collections;
+using Assets.scripts.CharacterSpecific;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -63,6 +62,7 @@ public class EnemySpawner : MonoBehaviour
 
         spawnWaveIndicator();
         spawning = true;
+        UNewWaveListener.ReportNewWave();
     }
 
     private void setRespawnCooldown()

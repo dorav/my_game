@@ -62,7 +62,6 @@ public class ShieldContainer : MonoBehaviour
         }
         else // 1, 3, 5
         {
-            Debug.Log("Indices " + startIndex + " " + endIndex);
             PlaceShieldsInRange(shields, midindex, midindex, start, end);
             PlaceShieldsInRange(shields, startIndex, midindex - 1, start, midPos);
             PlaceShieldsInRange(shields, midindex + 1, endIndex, midPos, end);

@@ -5,7 +5,6 @@ using Assets.scripts;
 public class PlayerShootButtonAction : MonoBehaviour
 {
     public PlayerScript Player;
-    public Weaponry weapons;
     public InputAdapter input;
     public float ShotCooldown = 0.45f;
 
@@ -16,7 +15,10 @@ public class PlayerShootButtonAction : MonoBehaviour
 
     public static PlayerShootButtonAction Instance
     {
-        get { return instance; }
+        get
+        {
+            return instance;
+        }
         set
         {
             if (Instance != null)
@@ -26,22 +28,20 @@ public class PlayerShootButtonAction : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
-        weapons = new Weaponry(Player);
-        Instance = this;
     }
 
     private void Shoot()
     {
         if (ShotReady)
         {
-            weapons.Shoot();
+            Player.weaponry.Shoot();
             remainingShotCooldownInSeconds = ShotCooldown;
         }
     }
 
-	void Update ()
+	public void Update ()
     {
         if (Player == null)
             return;

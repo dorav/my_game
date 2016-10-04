@@ -6,7 +6,6 @@ using Assets.scripts;
 
 public class SplitShotBonus : UCharacterInteractor
 {
-    public Weaponry weaponry;
     private int MaxShotMultiplier = 8;
 
     public class SplitShot : IWeapon
@@ -44,14 +43,9 @@ public class SplitShotBonus : UCharacterInteractor
         }
     }
 
-
-    void Start()
-    {
-        weaponry = PlayerShootButtonAction.Instance.weapons;
-    }
-
     public override void InteractWith(PlayerScript player)
     {
+        var weaponry = player.weaponry;
         var splitShot = weaponry.wrappingWeapon as SplitShot;
         if (splitShot != null)
         {

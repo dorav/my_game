@@ -4,17 +4,6 @@ public abstract class UEnemyDestroyedListener : MonoBehaviour
 {
     private static int numberOfActiveEnemies;
 
-    public static int NumberOfActiveEnemies
-    {
-        get { return numberOfActiveEnemies; }
-        set
-        {
-            numberOfActiveEnemies = value;
-            if (OnNumberOfActiveEnemiesChanged != null)
-                OnNumberOfActiveEnemiesChanged();
-        }
-    }
-
     public delegate void NumberOfActiveEnemiesChanged_();
     public static event NumberOfActiveEnemiesChanged_ OnNumberOfActiveEnemiesChanged;
 
@@ -26,5 +15,16 @@ public abstract class UEnemyDestroyedListener : MonoBehaviour
         if (OnBeforeEnemyDestroyed != null)
             OnBeforeEnemyDestroyed(destroyed);
         NumberOfActiveEnemies--;
+    }
+
+    public static int NumberOfActiveEnemies
+    {
+        get { return numberOfActiveEnemies; }
+        set
+        {
+            numberOfActiveEnemies = value;
+            if (OnNumberOfActiveEnemiesChanged != null)
+                OnNumberOfActiveEnemiesChanged();
+        }
     }
 }

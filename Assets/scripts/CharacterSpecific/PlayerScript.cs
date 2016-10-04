@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.scripts;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : BasicCharacter
 {
     public PlayerHealthBar healthBar;
+    public CurrentWeaponPresenter weaponPresenter;
 
     PlayerShieldScript shield;
 
     public int SplitShotMultiplier { get; internal set; }
+    public Weaponry weaponry { get; private set; }
 
     public void SetSpeed(float speedX)
     {
@@ -27,6 +31,12 @@ public class PlayerScript : BasicCharacter
         healthBar.MaxHealth = Health;
         healthBar.UpdateHealth(Health);
         spawnShield();
+        weaponry = GetComponent<Weaponry>();
+    }
+
+    void OnDisable()
+    {
+        SceneManager.LoadScene("OpeningScreen");
     }
 
     public override void TakeHitFrom(GameCollider dmgDealer)

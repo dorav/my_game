@@ -4,20 +4,36 @@ using System;
 
 namespace Assets.scripts
 {
-    public class Weaponry
+    public class Weaponry : MonoBehaviour
     {
-        public float DamageMultiplier = 1f;
-        public int MaxMultiplier = 8;
+        private float damageMultiplier = 1f;
+        public float DamageMultiplier
+        {
+            get
+            {
+                return damageMultiplier;
+            }
+            set
+            {
+                damageMultiplier = value;
+                if (OnWeaponChange != null)
+                    OnWeaponChange();
+            }
+        }
+
+        internal int MaxMultiplier = 8;
         internal float MinMultiplier = 0.125f;
 
         public IWeapon baseWeapon;
         public IWeapon wrappingWeapon;
-        public PlayerScript Player;
+        public SortedList<float, GameCollider> ShotPrefabsByDamage = new SortedList<float, GameCollider>();
 
-        public Weaponry(PlayerScript player)
+        public delegate void WeaponChanged();
+        public event WeaponChanged OnWeaponChange;
+
+        void Awake()
         {
-            Player = player;
-            baseWeapon = new RegularShot(this, ConstantsDefaultLoader.PlayerBulletPrefab);
+            baseWeapon = new RegularShot(this, ConstantsDefaultLoader.PlayerBulletPrefabs);
             wrappingWeapon = new NoChangeWrapper(this);
         }
 
@@ -25,16 +41,11 @@ namespace Assets.scripts
         {
             foreach (var collider in wrappingWeapon.shoot())
             {
-                var pos = Player.transform.position;
+                var pos = transform.position;
                 pos.y += 100;
                 collider.transform.position = pos;
                 collider.Damage *= DamageMultiplier;
             }
-        }
-
-        internal void setWeapon(IWeapon weapon)
-        {
-            baseWeapon = weapon;
         }
     }
 
@@ -42,7 +53,6 @@ namespace Assets.scripts
     {
         public GameCollider[] shots;
         private Weaponry weaponry;
-        private SortedDictionary<float, GameCollider> dmgMultToPrefab = new SortedDictionary<float, GameCollider>();
 
         public RegularShot(Weaponry weaponry, GameCollider[] prefab)
         {
@@ -50,33 +60,20 @@ namespace Assets.scripts
             shots = prefab;
             int max = 0;
             for (int coef = (int)Mathf.Log(weaponry.MinMultiplier, 2); coef < 1; ++coef, ++max)
-                dmgMultToPrefab[Mathf.Pow(2, coef)] = shots[max];
+                weaponry.ShotPrefabsByDamage[Mathf.Pow(2, coef)] = shots[max];
 
             for (int coef = 1; Mathf.Pow(2, coef) <= weaponry.MaxMultiplier; ++coef, ++max)
-                dmgMultToPrefab[Mathf.Pow(2, coef)] = shots[max];
+                weaponry.ShotPrefabsByDamage[Mathf.Pow(2, coef)] = shots[max];
         }
 
         public List<GameCollider> shoot()
         {
-            var latest = MonoBehaviour.Instantiate(shotPrefab().gameObject);
+            GameCollider shotPrefab = weaponry.ShotPrefabsByDamage.EqualOrNextGreater(weaponry.DamageMultiplier);
+            var latest = MonoBehaviour.Instantiate(shotPrefab);
             var collider = latest.GetComponent<GameCollider>();
             latest.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1000f);
 
             return new List<GameCollider> { collider };
-        }
-
-        private GameCollider shotPrefab()
-        {
-            var shotPrefab = shots[0];
-            foreach (KeyValuePair<float, GameCollider> shot in dmgMultToPrefab)
-            {
-                if (shot.Key > weaponry.DamageMultiplier)
-                    return shotPrefab;
-
-                shotPrefab = shot.Value;
-            }
-
-            return shotPrefab;
         }
     }
 

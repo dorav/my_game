@@ -75,9 +75,11 @@
     <Compile Include="Assets\scripts\CharacterSpecific\IWeapon.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\MiltiplyEnemy.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerScript.cs" />
+    <Compile Include="Assets\scripts\CharacterSpecific\PlayerShieldScript.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PlayerShootButtonAction.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\PreconfiguredWaveProvider.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\ShotTypes\SplitShotBonus.cs" />
+    <Compile Include="Assets\scripts\CharacterSpecific\ShotTypes\HealthBonus.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\ShotTypes\StrongerShotBonus.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\UCharacterInteractor.cs" />
     <Compile Include="Assets\scripts\CharacterSpecific\UEnemyDestroyedListener.cs" />
@@ -96,9 +98,10 @@
     <Compile Include="Assets\scripts\MovmentRelated\SplineDecorator.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\SplineWalker.cs" />
     <Compile Include="Assets\scripts\MovmentRelated\SplineWalkerMode.cs" />
-    <Compile Include="Assets\scripts\PlayerShieldScript.cs" />
     <Compile Include="Assets\scripts\ShieldContainer.cs" />
+    <Compile Include="Assets\scripts\SortedListExtentions.cs" />
     <Compile Include="Assets\scripts\UIRelated\BackgroundSpawner.cs" />
+    <Compile Include="Assets\scripts\UIRelated\CurrentWeaponPresenter.cs" />
     <Compile Include="Assets\scripts\UIRelated\InputAdapter.cs" />
     <Compile Include="Assets\scripts\UIRelated\MovingScore.cs" />
     <Compile Include="Assets\scripts\UIRelated\PlayerHealthBar.cs" />

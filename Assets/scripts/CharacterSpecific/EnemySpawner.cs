@@ -23,6 +23,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start ()
     {
+        UEnemyDestroyedListener.NumberOfActiveEnemies = 0;
     }
 
     void Update ()

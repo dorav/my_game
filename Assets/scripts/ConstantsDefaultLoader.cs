@@ -11,7 +11,7 @@ public class ConstantsDefaultLoader : MonoBehaviour
     public static ParticleSystem HitEffectPF;
     public static ParticleSystem DeathEffectPF;
     public static PlayerShieldScript PlayerShieldPrefab;
-    public static GameCollider[] PlayerBulletPrefab;
+    public static GameCollider[] PlayerBulletPrefabs;
 
 
     void Awake()
@@ -19,6 +19,6 @@ public class ConstantsDefaultLoader : MonoBehaviour
         HitEffectPF = hitEffectPrefab_;
         DeathEffectPF = deathEffectPrefab_;
         PlayerShieldPrefab = playerShieldPrefab_;
-        PlayerBulletPrefab = playerBulletPrefab_;
+        PlayerBulletPrefabs = playerBulletPrefab_;
     }
 }

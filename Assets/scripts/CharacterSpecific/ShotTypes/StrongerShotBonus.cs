@@ -6,19 +6,12 @@ using Assets.scripts;
 
 public class StrongerShotBonus : UCharacterInteractor
 {
-    public Weaponry weaponry;
-
-    void Start()
-    {
-        weaponry = PlayerShootButtonAction.Instance.weapons;
-    }
-
     public override void InteractWith(PlayerScript player)
     {
-        var newMultiplier = weaponry.DamageMultiplier * 2;
-        if (newMultiplier > weaponry.MaxMultiplier)
+        var newMultiplier = player.weaponry.DamageMultiplier * 2;
+        if (newMultiplier > player.weaponry.MaxMultiplier)
             return;
 
-        weaponry.DamageMultiplier = newMultiplier;
+        player.weaponry.DamageMultiplier = newMultiplier;
     }
 }

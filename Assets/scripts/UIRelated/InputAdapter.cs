@@ -7,6 +7,7 @@ public class InputAdapter : UInput
 {
     public Button shotButton;
     public Button moveButton;
+    public float MoveCoeficient;
 
     public override bool IsShooting()
     {
@@ -26,7 +27,12 @@ public class InputAdapter : UInput
     public float CustomButtonHorizontalMovment()
     {
         var rect = moveButton.GetComponent<RectTransform>();
-        return GetClickInside(rect, Vector2.zero).Value.x * 3;
+        var xMove = GetClickInside(rect, Vector2.zero).Value.x;
+        if (xMove > 0)
+            return MoveCoeficient;
+        if (xMove < 0)
+            return -MoveCoeficient;
+        return 0;
     }
 
     private Vector2? GetClickInside(RectTransform rect, Vector2? defaultVal)

@@ -27,8 +27,11 @@ public class BasicCharacter : GameCollider
     }
 
     public virtual void TakeHitFrom(GameCollider other)
-    {
+    { 
         CreateHitEffect(other.transform);
+        if (Health <= 0)
+            return;
+
         Health -= other.Damage;
         if (Health <= 0)
             Kill();

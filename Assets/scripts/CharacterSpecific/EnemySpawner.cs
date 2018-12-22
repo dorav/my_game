@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     public Rigidbody2D Player;
     public WaveIndicator indicatorPrefab;
 
-    public EnemyWave ActiveWave;
+    private EnemyWave ActiveWave;
 
     float RespawnCooldown = 0;
     int waveEnemiesToSpawn = 0;
@@ -23,9 +23,9 @@ public class EnemySpawner : MonoBehaviour
 
     void Start ()
     {
-        UEnemyDestroyedListener.NumberOfActiveEnemies = 0;
+        UEnemyDestroyedListener.setNumberOfEnemies(0);
     }
-
+    int count = 0;
     void Update ()
     {
         if (spawning == false)
@@ -58,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(TimeBetweenWaves);
         waveEnemiesToSpawn = ActiveWave.EnemiesToSpawn;
-        UEnemyDestroyedListener.NumberOfActiveEnemies = waveEnemiesToSpawn;
+        UEnemyDestroyedListener.setNumberOfEnemies(waveEnemiesToSpawn);
         setRespawnCooldown();
 
         spawnWaveIndicator();
@@ -88,5 +88,10 @@ public class EnemySpawner : MonoBehaviour
         obj.GetComponent<SplineWalker>().duration = ActiveWave.WaveFinishTime;
         obj.GetComponent<SplineWalker>().Spline = ActiveWave.Path;
         obj.GetComponent<SpriteRenderer>().transform.position = ActiveWave.Path.FirstPoint;
+    }
+
+    public EnemyWave getActiveWave()
+    {
+        return ActiveWave;
     }
 }

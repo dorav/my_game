@@ -8,7 +8,7 @@ public class BackgroundSpawner : MonoBehaviour {
     public GameObject backgroundSpawnPrefab;
     public Canvas canvas;
     public Sprite[] backgroundSpawns;
-    public float speedRatio = 500;
+    public float speedRatio = 15;
 
     float RespawnCooldown = 0;
 
@@ -26,10 +26,10 @@ public class BackgroundSpawner : MonoBehaviour {
 
             int randomSprite = Random.Range(0, backgroundSpawns.Length);
             Sprite chosenSprite = backgroundSpawns[randomSprite];
-            float scaleSpeedRatio = Random.Range(0.4f, 1f);
+            float scaleSpeedRatio = Random.Range(1f, 1.5f);
             scaleSpeedRatio *= scaleSpeedRatio;
             backgroundSpawn.GetComponent<SpriteRenderer>().sprite = chosenSprite;
-            var scaleFactor = scaleSpeedRatio * 50;
+            var scaleFactor = scaleSpeedRatio * 150;
             backgroundSpawn.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(scaleFactor, scaleFactor);
             backgroundSpawn.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -scaleSpeedRatio * speedRatio);
 

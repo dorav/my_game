@@ -49,6 +49,6 @@ public class EnemyShooter : BasicCharacter
     public virtual void SetConfig(EnemySpawner enemySpawner)
     {
         Player = enemySpawner.Player;
-        RelatedWave = enemySpawner.ActiveWave;
+        RelatedWave = enemySpawner.getActiveWave();
     }
 }

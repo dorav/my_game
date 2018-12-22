@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 public class CurrentWeaponPresenter : MonoBehaviour
 {
-    private const float SemiTransparentAlpha = 146f / 255f;
+    private const float SemiTransparentAlpha = 46f / 255f;
     private const float SemiTransparentV = 117f / 255f;
 
     private SortedList<float, SpriteRenderer> displayedWeaps = new SortedList<float, SpriteRenderer>();
     private SpriteRenderer currentHighlight;
-    public Text damageText; 
     public PlayerScript player;
 
     void Start()
@@ -68,11 +67,6 @@ public class CurrentWeaponPresenter : MonoBehaviour
         newColor.a = SemiTransparentAlpha;
         shot.color = newColor;
         return shot;
-    }
-
-    void Update()
-    {
-        damageText.text = player.weaponry.DamageMultiplier.ToString();
     }
 
     private void setNonTransparent(SpriteRenderer sprite)

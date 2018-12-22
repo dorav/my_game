@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 
 public abstract class UEnemyDestroyedListener : MonoBehaviour
 {
@@ -14,17 +15,27 @@ public abstract class UEnemyDestroyedListener : MonoBehaviour
     {
         if (OnBeforeEnemyDestroyed != null)
             OnBeforeEnemyDestroyed(destroyed);
-        NumberOfActiveEnemies--;
+
+        Interlocked.Decrement(ref numberOfActiveEnemies);
+
+        if (OnNumberOfActiveEnemiesChanged != null)
+            OnNumberOfActiveEnemiesChanged();
+    }
+
+    public static void setNumberOfEnemies(int newNumberOfEnemies)
+    {
+        numberOfActiveEnemies = newNumberOfEnemies;
+    }
+
+    public static void reportNewEnemy()
+    {
+        Interlocked.Increment(ref numberOfActiveEnemies);
+        if (OnNumberOfActiveEnemiesChanged != null)
+            OnNumberOfActiveEnemiesChanged();
     }
 
     public static int NumberOfActiveEnemies
     {
         get { return numberOfActiveEnemies; }
-        set
-        {
-            numberOfActiveEnemies = value;
-            if (OnNumberOfActiveEnemiesChanged != null)
-                OnNumberOfActiveEnemiesChanged();
-        }
     }
 }

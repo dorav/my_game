@@ -52,9 +52,9 @@ namespace Assets.scripts
             var spawnedWalker = obj.GetComponent<SplineWalker>();
             spawnedWalker.duration = thisWalker.duration;
             spawnedWalker.progress = thisWalker.progress;
-            spawnedWalker.Spline = GetComponent<SplineWalker>().Spline;
+            spawnedWalker.Spline = thisWalker.Spline;
 
-            UEnemyDestroyedListener.NumberOfActiveEnemies++;
+            UEnemyDestroyedListener.reportNewEnemy();
 
             return spawnedWalker;
         }
